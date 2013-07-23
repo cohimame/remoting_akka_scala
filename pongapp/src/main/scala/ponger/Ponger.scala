@@ -7,14 +7,17 @@ import scala.concurrent.duration._
 
 
 object PongerApp extends App {	
-	val system = ActorSystem(
-		"pongersystem",
+	val system = ActorSystem("pongersystem",
 		ConfigFactory.load.getConfig("ponger-remote"))
+
+	import system.dispatcher
+
+
 	val pongerActor = system.actorOf(Props[Ponger], "ponger")
 
 	println("ponger_path=" + pongerActor.path)
 
 
-	//system.shutdown()
+	system.scheduler.scheduleOnce( 5 seconds ){ system.shutdown() }
 
 }
