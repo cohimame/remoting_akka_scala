@@ -4,6 +4,7 @@ import akka.actor.Actor
 
 case class Ping(n: Int) 
 case class Pong(n: Int)  
+case class Msg(m: String)
 
 class Ponger extends Actor {
   def receive = {
@@ -24,4 +25,13 @@ class Pinger extends Actor {
       }
   }
 
+}
+
+
+class Azaza extends Actor {
+  def receive = {
+    case msg @ Msg(m) => 
+      println(sender)
+      sender ! msg 
+  }
 }

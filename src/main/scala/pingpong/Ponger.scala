@@ -1,8 +1,8 @@
-package ponger
+package pingpong
 
 import actorcore._
 import com.typesafe.config.ConfigFactory
-import akka.actor.{ActorSystem, Props, Actor}//, Inbox} only in akka2.2 
+import akka.actor.{ActorSystem, Props, Actor}
 import scala.concurrent.duration._
 
 
@@ -13,11 +13,12 @@ object PongerApp extends App {
 	import system.dispatcher
 
 
-	val pongerActor = system.actorOf(Props[Ponger], "ponger")
+	val pongerActor = system.actorOf(Props[Azaza], "ponger")
 
 	println("ponger_path=" + pongerActor.path)
 
 
-	system.scheduler.scheduleOnce( 5 seconds ){ system.shutdown() }
+
+	system.scheduler.scheduleOnce( 20 seconds ){ system.shutdown() }
 
 }

@@ -1,4 +1,4 @@
-package pinger
+package pingpong
 
 import actorcore._
 import com.typesafe.config.ConfigFactory
@@ -12,13 +12,21 @@ object PingerApp extends App {
   import system.dispatcher
 
   
-  val pingerActor = system.actorOf(Props[Pinger], "pinger")
+  val pingerActor = system.actorOf(Props[Azaza], "pinger")
 
   val pongerActor = system.actorFor("akka://pongersystem@localhost:2552/user/ponger")
+
+
 
   
   println("pinger_path=" + pingerActor.path)
   println("remote_ponger_path=" + pongerActor.path)
+
+
+
+  system.scheduler.scheduleOnce( 15 seconds ){ 
+    pongerActor.tell(actorcore.Msg("bang!"), pingerActor)
+  }
 
 /*
 
@@ -30,6 +38,6 @@ object PingerApp extends App {
 */
 
 
-  system.scheduler.scheduleOnce( 5 seconds ){ system.shutdown() }
+  system.scheduler.scheduleOnce( 16 seconds ){ system.shutdown() }
 
 }
