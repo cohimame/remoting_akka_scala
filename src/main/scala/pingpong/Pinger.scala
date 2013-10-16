@@ -12,10 +12,10 @@ object Master extends App {
     ConfigFactory.load.getConfig("pinger-remote"))
 
    import system.dispatcher
-
+/*
    val future = system.actorSelection(
     "akka://remote@localhost:2552/user/ponger")//.resolveOne
-/*
+
    future.map(aRef => aRef ! "hola!").recover{
      case ActorNotFound(selection) => println("worker not available") 
    } 

@@ -5,13 +5,13 @@ import com.typesafe.config.ConfigFactory
 import akka.actor.{ActorSystem, Props, Actor}
 import scala.concurrent.duration._
 
+/*
 
 object RemoteWorker extends App {
   val system = ActorSystem(
     "remote",ConfigFactory.load.getConfig("ponger-remote"))
 
   import system.dispatcher
-
 
   val worker = system.actorOf(Props[Clean], "worker")
 
@@ -22,7 +22,6 @@ object RemoteWorker extends App {
 
 
 
-/*
 object PongerApp extends App {	
 	val system = ActorSystem("pongersystem",
 		ConfigFactory.load.getConfig("ponger-remote"))

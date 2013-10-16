@@ -1,24 +1,27 @@
 package actorcore
 import akka.actor.Actor
 
-case class Msg(m: String)
 
-class Clean extends Actor {
+object Messages{
+  case class Work()
+  case class Done()
+}
+
+
+
+class RemoteWorker extends Actor {
+  import Messages._
   def receive = {
-    case msg @ Msg(m) => 
-      println(sender)
-      sender ! msg 
+    case Work() =>
+      println("got task from sender: " + sender)
+      sender ! Done
   }
 }
 
-
-trait Parrot { this:Actor =>
-
-  def receive:Receive = {
-    case msg @ Msg(m) => 
-      println(sender)
-      sender ! msg 
+class DumbWorker extends Actor {
+  import Messages._
+  def receive = {
+    case Work() =>
+      println("who is " + sender +" ????")
   }
 }
-
-//class Extender1 extends Actor with 
