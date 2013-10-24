@@ -12,20 +12,17 @@ import scala.util.{ Success, Failure }
 
 import com.typesafe.config.ConfigFactory
 
-object PetGazing extends App {
+object Pet extends App {
+
   val system = ActorSystem(
-    "watchersystem",ConfigFactory.load.getConfig("watchersystem"))
-  import system.dispatcher
-
-  val watcher = system.actorOf(Props[Watcher])
+    "petsystem",ConfigFactory.load.getConfig("workersystem"))
  
-  val remotePet = system.actorFor("akka://petsystem@localhost:3500/user/pet")
+  import system.dispatcher
+ 
+  val pet = system.actorOf(Props[Watcher], name ="pet")
+  
 
-  watcher ! Watch(remotePet)
-
-  system.scheduler.scheduleOnce(5 seconds){ watcher ! Suffocate(remotePet)}
-
-  system.scheduler.scheduleOnce(15 seconds){
+  system.scheduler.scheduleOnce(25 seconds){
     system.shutdown()
   }
 }
