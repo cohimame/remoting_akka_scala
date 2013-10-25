@@ -27,7 +27,9 @@ class EchoActor extends Actor {
       Thread.sleep(2000)
       sender ! Echo(m)
 
-    case Die => self ! PoisonPill
+    case Die => 
+      println(s"gotta Die")
+      self ! PoisonPill
 
   }
 }
@@ -37,7 +39,9 @@ class Watcher extends Actor {
 
     case Watch(pet) => context.watch(pet)
 
-    case Suffocate(pet) => pet ! Die
+    case Suffocate(pet) => 
+      println(s"gotta suffocate $pet")
+      pet ! Die
 
     case Terminated(dunno) => println("this guy is dead: " + dunno)
   }

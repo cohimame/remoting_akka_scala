@@ -19,7 +19,8 @@ object PetGazing extends App {
 
   val watcher = system.actorOf(Props[Watcher])
  
-  val remotePet = system.actorFor("akka://petsystem@localhost:3500/user/pet")
+  val remotePet: ActorRef = system.actorFor(
+    "akka://petsystem@localhost:3500/user/pet")
 
   watcher ! Watch(remotePet)
 

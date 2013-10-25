@@ -19,7 +19,7 @@ object Pet extends App {
  
   import system.dispatcher
  
-  val pet = system.actorOf(Props[Watcher], name ="pet")
+  val pet = system.actorOf(Props[EchoActor], name ="pet")
   
 
   system.scheduler.scheduleOnce(25 seconds){
