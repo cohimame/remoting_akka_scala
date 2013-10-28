@@ -18,6 +18,7 @@ case object Die
 case class Watch(pet: ActorRef)
 case class Suffocate(pet: ActorRef)
 
+
 class EchoActor extends Actor {
   def receive = {
     
@@ -34,6 +35,34 @@ class EchoActor extends Actor {
   }
 }
 
+class FoodException(msg: String) extends Exception(msg)
+
+case object ThrowUp
+case object Heal
+
+
+class ExceptionSender extends Actor {
+  def receive = {
+    case ThrowUp => new FoodException("it was pizza")
+    case Heal => println(s"i'm healed")
+  }
+}
+
+
+class ExceptionThrower extends Actor {
+
+  override def postRestart(reason: Throwable): Unit = {
+    println(s"because of < $reason > i was restarted by ${context.parent}")
+  }
+
+  def receive = {
+    case ThrowUp => throw new FoodException("it was pizza")
+    case Heal => println(s"i'm healed")
+  }
+}
+
+
+
 class Watcher extends Actor {
   def receive = {
 
@@ -43,6 +72,6 @@ class Watcher extends Actor {
       println(s"gotta suffocate $pet")
       pet ! Die
 
-    case Terminated(dunno) => println("this guy is dead: " + dunno)
+    case Terminated(dunno) => println(s"this guy is dead: $dunno")
   }
 }

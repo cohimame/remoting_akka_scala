@@ -10,17 +10,18 @@ import scala.util.{ Success, Failure }
 
 import com.typesafe.config.ConfigFactory
 
-object Pet extends App {
-
+object Supervising extends App {
   val system = ActorSystem(
-    "petsystem",ConfigFactory.load.getConfig("workersystem"))
- 
+    "system",ConfigFactory.load.getConfig("watchersystem"))
   import system.dispatcher
- 
-  val pet = system.actorOf(Props[EchoActor], name ="pet")
-  
 
-  system.scheduler.scheduleOnce(25 seconds){
+  val illActor = system.actorOf(Props[ExceptionThrower])
+ 
+  illActor ! ThrowUp
+ 
+  system.scheduler.scheduleOnce(5 seconds){ illActor ! Heal }
+
+  system.scheduler.scheduleOnce(15 seconds){
     system.shutdown()
   }
 }
